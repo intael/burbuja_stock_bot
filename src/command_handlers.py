@@ -66,9 +66,7 @@ def stonks(update, context):
             "Precio al final del periodo: " + str(round(valuation.end_price, 2)) + "\n"
         )
         message += (
-            "Variación: "
-            + str(round(valuation.starting_price / valuation.end_price - 1, 2) * 100)
-            + "%"
+            "Variación: {:.2%}".format(valuation.starting_price / valuation.end_price - 1)
             + "\n"
         )
     message += SEPARATOR
