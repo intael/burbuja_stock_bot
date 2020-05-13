@@ -1,10 +1,12 @@
 import pytest
 
-from arguments.asset_valuation_argument import AssetValuationArgumentValidator
+from arguments.validators.asset_valuation_argument_validator import (
+    AssetPeriodValuationArgumentValidator,
+)
 
 
 @pytest.fixture
 def asset_valuation_argument_validator_with_parameters(
-    argument: str, period_format: str
+    period_format: str
 ):
-    return AssetValuationArgumentValidator(argument, period_format)
+    return AssetPeriodValuationArgumentValidator(period_format)
