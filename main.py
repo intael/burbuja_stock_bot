@@ -1,7 +1,5 @@
-import sys
-
 from src.configuration import BasicConfiguration
-from src.command_handlers import start_handler, stonk_handler
+from handlers.command_handlers import start_handler, token_query_handler, value_handler
 from telegram.ext import Updater
 import logging
 
@@ -16,5 +14,9 @@ updater = Updater(
     token=configuration.get_credential(BasicConfiguration.BOT_TOKEN), use_context=True
 )
 updater.dispatcher.add_handler(start_handler)
-updater.dispatcher.add_handler(stonk_handler)
+updater.dispatcher.add_handler(value_handler)
+updater.dispatcher.add_handler(token_query_handler)
+
 updater.start_polling()
+
+updater.idle()
