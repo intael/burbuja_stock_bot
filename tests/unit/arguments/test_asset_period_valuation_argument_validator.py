@@ -46,7 +46,7 @@ def test_validation_passes_when_input_is_valid_with_format_ymd_separated_by_slas
         "AMZN:2010/13/01-2011/05/01",  # 13 is not a valid month
         "FB:2015/05/01",  # Period end date is missing
         "GOOG:",  # Main component separator is present but period dates are missing
-        "FB:2016/08/01-2016/01/01"  # period end is < period start
+        "FB:2016/08/01-2016/01/01",  # period end is < period start
     ],
 )
 @pytest.mark.parametrize("period_format", ["%Y/%m/%d"])
@@ -55,4 +55,3 @@ def test_validation_fails_with_invalid_argument_exception_when_input_is_invalid_
 ):
     with pytest.raises(InvalidArgument):
         asset_valuation_argument_validator_with_parameters.validate(argument)
-

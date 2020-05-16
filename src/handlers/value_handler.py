@@ -23,16 +23,26 @@ def value_handler_broker(asset_valuations: List[str]) -> str:
     message = SEPARATOR
     for stock_valuation in asset_valuations:
         try:
-            valuation_argument: AssetValuationArgument = stock_argument_parser.parse(stock_valuation)
+            valuation_argument: AssetValuationArgument = stock_argument_parser.parse(
+                stock_valuation
+            )
         except InvalidArgument:
             return STOCKS_COMMAND_FORMAT_ERROR_MESSAGE
-        date_period = DatePeriod(valuation_argument.get_period_start(), valuation_argument.get_period_end())
+        date_period = DatePeriod(
+            valuation_argument.get_period_start(), valuation_argument.get_period_end()
+        )
         try:
             valuations: Dict[
                 DatePeriod, Valuation
-            ] = stock_repository.get_stock_valuations(valuation_argument.get_asset_id(), [date_period])
+            ] = stock_repository.get_stock_valuations(
+                valuation_argument.get_asset_id(), [date_period]
+            )
         except FinancialAPIUnavailableData:
-            message += "No hay datos sobre este ticker: " + valuation_argument.get_asset_id() + "\n"
+            message += (
+                "No hay datos sobre este ticker: "
+                + valuation_argument.get_asset_id()
+                + "\n"
+            )
             continue
         valuation: Valuation = valuations[date_period]
         message += "Ticker: " + valuation_argument.get_asset_id() + "\n"
