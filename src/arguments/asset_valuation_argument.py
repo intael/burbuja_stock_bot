@@ -10,7 +10,12 @@ class AssetValuationArgument(ParsedArgument):
     _period_start: date
     _period_end: date
 
-    def __init__(self, asset_id: str, period_start: Union[date, None], period_end: Union[date, None]):
+    def __init__(
+        self,
+        asset_id: str,
+        period_start: Union[date, None],
+        period_end: Union[date, None],
+    ):
         self._asset_id = asset_id
         self._period_start = period_start
         self._period_end = period_end

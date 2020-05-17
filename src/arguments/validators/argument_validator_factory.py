@@ -1,4 +1,6 @@
-from arguments.validators.asset_valuation_argument_validator import AssetPeriodValuationArgumentValidator
+from arguments.validators.asset_valuation_argument_validator import (
+    AssetPeriodValuationArgumentValidator,
+)
 
 
 class ArgumentValidatorFactory:
