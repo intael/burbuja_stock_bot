@@ -1,3 +1,4 @@
+from arguments.parsers.argument_parser import ArgumentParser
 from arguments.parsers.asset_valuation_argument_parser import (
     AssetValuationArgumentParser,
 )
@@ -9,7 +10,7 @@ class ArgumentParserFactory:
     ARGUMENT_VALIDATORS = {AssetValuationArgumentParser}
 
     @staticmethod
-    def build_asset_valuation_parser(datetime_format: str):
+    def build_asset_valuation_parser(datetime_format: str) -> ArgumentParser:
         validator: DatetimeValidatorInterface = ArgumentValidatorFactory.build_asset_valuation_argument_validator(
             datetime_format
         )
