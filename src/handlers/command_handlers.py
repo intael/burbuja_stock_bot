@@ -1,15 +1,13 @@
 from typing import List
-import re
 
 import telegram
 from telegram.ext import CommandHandler, Filters, MessageHandler
 import logging
 
+from handlers.token_matching import match_token
 from handlers.value_handler import value_handler_broker
 
-VALUE_COMMAND_REGEX_TOKEN = "[$]([a-zA-Z]+)"
-VALUE_BY_TOKEN_COMMAND_REGEX_TOKEN = "[$]([a-zA-Z]+[:][0-9]{8}-[0-9]{8})"
-
+WHITESPACE_STRING = " "
 cmd_logger = logging.getLogger("main")
 
 
@@ -19,21 +17,17 @@ def status(update, context):
     )
 
 
-# TODO: The logic of the 2 regex is really shabby, see if it can be handled more elegantly
 def value_by_token(update, context):
-    message = update.message.text
-    period_asset_valuation = re.findall(VALUE_BY_TOKEN_COMMAND_REGEX_TOKEN, message)
-    todays_asset_valuation = re.findall(VALUE_COMMAND_REGEX_TOKEN, message)
-    for period in period_asset_valuation:
-        todays_asset_valuation = [
-            asset_id for asset_id in todays_asset_valuation if asset_id not in period
-        ]
-    matches = period_asset_valuation + todays_asset_valuation
+    matches = set()
+    for word in update.message.text.split(WHITESPACE_STRING):
+        match = match_token(word)
+        if match is not None:
+            matches.add(match)
     if len(matches) > 0:
         context.bot.send_chat_action(
             chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING
         )
-        message = value_handler_broker(matches)
+        message = value_handler_broker(list(matches))
         update.message.reply_text(message, parse_mode=telegram.ParseMode.MARKDOWN)
 
 
